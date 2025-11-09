@@ -23,4 +23,24 @@ def create_ui():
     file_menu.add_command(label='Exit', command=funcs.exit)
     menu.add_cascade(label='File', menu=file_menu)
 
+    edit_menu = Menu(menu, tearoff=0)
+    edit_menu.add_command(label='Undo', command=undo)
+    edit_menu.add_command(label='Cut', command=cut)
+    edit_menu.add_command(label='Copy', command=copy)
+    edit_menu.add_command(label='Insert', command=insert)
+    edit_menu.add_command(label='Delete', command=delete)
+    edit_menu.add_command(label='Find', command=find)
+    edit_menu.add_command(label='Find next', command=find_next)
+    edit_menu.add_command(label='Find earlier', command=find_earlier)
+    edit_menu.add_command(label='Replace', command=replace)
+    edit_menu.add_command(label='Go', command=go)
+    edit_menu.add_command(label='Select all', command=select_all)
+    edit_menu.add_command(label='Time and date', command=time_and_date)
+    menu.add_cascade(label='Edit', menu=edit_menu)
+
+    
+
+    text=Text(app)
+    text.pack(expand=YES, fill=BOTH)
+
     app.mainloop()
