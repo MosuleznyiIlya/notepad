@@ -1,16 +1,32 @@
 import ui
-
+import libs
+import main as __main__
+from tkinter import filedialog, simpledialog, messagebox
 
 def save_file():
-    pass
+    file_name = filedialog.asksaveasfile(initialdir='/', title='Select file')
+    if file_name:
+        f = open(file_name, 'w')
+        text_save = str(ui.text.get(1.0, 'end'))
+        f.write(text_save + "\n")
+        f.close()
 def open_file():
-    pass
+    file_path = filedialog.askopenfilename(
+        filetypes=[("Text files", "*.txt"), ("All files", "*.*")],
+        title="Open file"
+    )
+    if file_path:
+        with open(file_path, "r", encoding="utf-8") as f:
+            text_content = f.read()
+        ui.text.delete(1.0, "end")
+        ui.text.insert("end", text_content)
 def create():
     pass
 def exit():
-    pass
+    ui.app.destroy()
 def new_window():
-    pass
+    main_file = libs.os.path.join(libs.os.path.dirname(__file__), "main.py")
+    libs.subprocess.Popen([libs.sys.executable, main_file])
 def save():
     pass
 def page_options():

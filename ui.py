@@ -1,6 +1,8 @@
 from customtkinter import *
-import funcs
 from tkinter import *
+import funcs
+
+text = None
 
 def toggle_theme():
     current = get_appearance_mode()
@@ -10,7 +12,7 @@ def toggle_theme():
         set_appearance_mode("Dark")
 
 def create_ui():
-    global theme_btn
+    global text
 
     app = CTk()
     app.title('Notepad')
