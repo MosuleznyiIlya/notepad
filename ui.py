@@ -50,7 +50,7 @@ def create_ui():
 
     format_menu = Menu(menu, tearoff=0)
     format_menu.add_command(label='Word wrapping', command=funcs.wrapping)
-    format_menu.add_command(label='Font', command=funcs.Font)
+    format_menu.add_command(label='Font', command=funcs.font)
     menu.add_cascade(label='Format', menu=format_menu)
 
     view_menu = Menu(menu, tearoff=0)
@@ -67,5 +67,15 @@ def create_ui():
 
     text=CTkTextbox(app, fg_color='transparent')
     text.pack(expand=YES, fill=BOTH)
+
+    app.bind('<Control-c>', lambda event: funcs.copy())
+    app.bind('<Control-v>', lambda event: funcs.insert())
+    app.bind('<Control-x>', lambda event: funcs.cut())
+    app.bind('<Control-z>', lambda event: funcs.undo())
+    app.bind('<Control-s>', lambda event: funcs.save())
+    app.bind('<Delete>', lambda event: funcs.delete())
+    app.bind('<Control-f>', lambda event: funcs.find)
+    app.bind('<Control-a>', lambda event: funcs.select_all)
+    app.bind('<KeyPress-F1>', lambda event: funcs.help())
 
     app.mainloop()

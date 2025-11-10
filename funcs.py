@@ -71,7 +71,7 @@ def time_and_date():
     pass
 def wrapping():
     pass
-def Font():
+def font():
     pass
 def scale():
     scale_value = simpledialog.askstring("Scale", "Enter font size (e.g., 12):")
