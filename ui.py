@@ -60,7 +60,7 @@ def create_ui():
     menu.add_cascade(label='View', menu=view_menu)
 
     help_menu = Menu(menu, tearoff=0)
-    help_menu.add_command(label='Help', command=help)
+    help_menu.add_command(label='Help', command=funcs.help)
     help_menu.add_command(label='Send feedback', command=funcs.send_feedback)
     help_menu.add_command(label='About', command=funcs.about)
     menu.add_cascade(label='Help', menu=help_menu)
