@@ -21,7 +21,7 @@ def open_file():
         ui.text.delete(1.0, "end")
         ui.text.insert("end", text_content)
 def create():
-    pass
+    ui.text.delete("1.0", 'end')
 def exit():
     ui.app.destroy()
 def new_window():
@@ -36,17 +36,29 @@ def print():
 def undo():
     pass
 def cut():
-    pass
+    try:
+        ui.text.event_generate("<<Cut>>")
+    except Exception as e:
+        print(f"Cut failed: {e}")
 def copy():
-    pass
+    try:
+        ui.text.event_generate("<<Copy>>")
+    except Exception as e:
+        print(f"Copy failed: {e}")
 def insert():
-    pass
+    try:
+        ui.text.event_generate("<<Paste>>")
+    except Exception as e:
+        print(f"Paste failed: {e}")
 def delete():
-    pass
+    try:
+        ui.text.event_generate("<<Clear>>")
+    except Exception as e:
+        print(f"Delete failed: {e}")
 def find():
     pass
 def select_all():
-    pass
+    ui.text.tag_add("sel", "1.0", 'end')
 def find_next():
     pass
 def find_earlier():
@@ -62,9 +74,13 @@ def wrapping():
 def Font():
     pass
 def scale():
-    pass
+    scale_value = simpledialog.askstring("Scale", "Enter font size (e.g., 12):")
+    if scale_value and scale_value.isdigit():
+        ui.text.config(font=("Arial", int(scale_value)))
 def row_state():
-    pass
+    cursor_position = ui.text.index("insert")
+    row, col = cursor_position.split(".")
+    messagebox.showinfo("Row State", f"Row: {row}, Column: {col}")
 def help():
     pass
 def send_feedback():

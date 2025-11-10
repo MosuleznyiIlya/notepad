@@ -2,7 +2,7 @@ from customtkinter import *
 from tkinter import *
 import funcs
 
-text = None
+text=None
 
 def toggle_theme():
     current = get_appearance_mode()
