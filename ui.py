@@ -2,12 +2,20 @@ from customtkinter import *
 import funcs
 from tkinter import *
 
+def toggle_theme():
+    current = get_appearance_mode()
+    if current == "Dark":
+        set_appearance_mode("Light")
+    else:
+        set_appearance_mode("Dark")
+
 def create_ui():
+    global theme_btn
+
     app = CTk()
     app.title('Notepad')
     app.geometry('800x600')
     app.minsize(400, 300)
-    app.maxsize(1920, 1080)
     
     menu = Menu(app)
     app.config(menu=menu)
@@ -30,7 +38,7 @@ def create_ui():
     edit_menu.add_command(label='Insert', command=funcs.insert)
     edit_menu.add_command(label='Delete', command=funcs.delete)
     edit_menu.add_command(label='Find', command=funcs.find)
-    edit_menu.add_command(label='Find next', command=funcs.ind_next)
+    edit_menu.add_command(label='Find next', command=funcs.find_next)
     edit_menu.add_command(label='Find earlier', command=funcs.find_earlier)
     edit_menu.add_command(label='Replace', command=funcs.replace)
     edit_menu.add_command(label='Go', command=funcs.go)
@@ -46,6 +54,7 @@ def create_ui():
     view_menu = Menu(menu, tearoff=0)
     view_menu.add_command(label='Scale', command=funcs.scale)
     view_menu.add_command(label='Row state', command=funcs.row_state)
+    view_menu.add_command(label=f'Click to change themes(now - {get_appearance_mode()})', command=toggle_theme)
     menu.add_cascade(label='View', menu=view_menu)
 
     help_menu = Menu(menu, tearoff=0)
@@ -54,7 +63,7 @@ def create_ui():
     help_menu.add_command(label='About', command=funcs.about)
     menu.add_cascade(label='Help', menu=help_menu)
 
-    text=Text(app)
+    text=CTkTextbox(app, fg_color='transparent')
     text.pack(expand=YES, fill=BOTH)
 
     app.mainloop()
