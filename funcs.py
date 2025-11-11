@@ -118,6 +118,24 @@ def help():
     info_label.pack(pady=2, )
 
 def send_feedback():
-    pass
+    send_box = CTkToplevel()
+    send_box.title('Send feedback')
+    send_box.geometry('400x300')
+    send_box.resizable(False, False)
+
+    send_box.after(100, lambda: send_box.lift())
+    send_box.attributes('-topmost', True)
+    send_box.after_idle(send_box.attributes, '-topmost', False)
+
+    tabview = CTkTabview(send_box)
+    tabview.pack(expand=True, fill='both', padx=10, pady=10)
+
+    tabview.add('Feedback')
+    feedback_label = CTkLabel(tabview.tab('Feedback'), text='Send feedback here:')
+    feedback_label.pack(pady=10)
+    feedback_entry = CTkTextbox(tabview.tab('Feedback'), height=120)
+    feedback_entry.pack(padx=10, pady=5, fill='x')
+    feedback_button = CTkButton(tabview.tab('Feedback'), text='Send', command=lambda: feedback_entry.delete('1.0', 'end'))
+    feedback_button.pack(pady=5)
 def about():
     pass
