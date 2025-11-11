@@ -93,9 +93,8 @@ def help():
     help_box.attributes('-topmost', True)
     help_box.after_idle(help_box.attributes, '-topmost', False)
 
-    help_label = CTkLabel(help_box, text='Binds:\nCopy - Ctrl+C\nPaste - Ctrl+V')
+    help_label = CTkLabel(help_box, text='Binds:\nCopy - Ctrl+C\nPaste - Ctrl+VCut - Ctrl+X\nUndo - Ctrl+Z\nSave - Ctrl+S\n Delete - Delete\nFind - Ctrl+F\nSelleact all - Ctrl+A\n Help - F1')
     help_label.pack(pady=10)
-    
 
 def send_feedback():
     pass
