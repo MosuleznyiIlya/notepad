@@ -86,15 +86,36 @@ def row_state():
 def help():
     help_box = CTkToplevel()
     help_box.title('Help')
-    help_box.geometry('300x200')
+    help_box.geometry('400x300')
     help_box.resizable(False, False)
 
     help_box.after(100, lambda: help_box.lift())
     help_box.attributes('-topmost', True)
     help_box.after_idle(help_box.attributes, '-topmost', False)
 
-    help_label = CTkLabel(help_box, text='Binds:\nCopy - Ctrl+C\nPaste - Ctrl+VCut - Ctrl+X\nUndo - Ctrl+Z\nSave - Ctrl+S\n Delete - Delete\nFind - Ctrl+F\nSelleact all - Ctrl+A\n Help - F1')
-    help_label.pack(pady=10)
+    tabview = CTkTabview(help_box)
+    tabview.pack(expand=True, fill='both', padx=10, pady=10)
+
+    tabview.add('Binds')
+    tabview.add('Info')
+
+    binds_text = (
+        'Binds:\n'
+        'Copy - Ctrl+C\n'
+        'Paste - Ctrl+V\n'
+        'Cut - Ctrl+X\n'
+        'Undo - Ctrl+Z\n'
+        'Save - Ctrl+S\n'
+        'Delete - Delete\n'
+        'Find - Ctrl+F\n'
+        'Select all - Ctrl+A\n'
+        'Help - F1'
+    )
+    binds_label = CTkLabel(tabview.tab('Binds'), text=binds_text, justify='left')
+    binds_label.pack(pady=10, padx=10, anchor='w')
+
+    info_label = CTkLabel(tabview.tab('Info'), text='Custom Notepad\nCreated by Mosuleznyi Ilya', justify='center')
+    info_label.pack(pady=2, )
 
 def send_feedback():
     pass
