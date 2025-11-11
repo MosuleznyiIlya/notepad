@@ -97,7 +97,6 @@ def help():
     tabview.pack(expand=True, fill='both', padx=10, pady=10)
 
     tabview.add('Binds')
-    tabview.add('Info')
 
     binds_text = (
         'Binds:\n'
@@ -113,10 +112,6 @@ def help():
     )
     binds_label = CTkLabel(tabview.tab('Binds'), text=binds_text, justify='left')
     binds_label.pack(pady=10, padx=10, anchor='w')
-
-    info_label = CTkLabel(tabview.tab('Info'), text='Custom Notepad\nCreated by Mosuleznyi Ilya', justify='center')
-    info_label.pack(pady=2, )
-
 def send_feedback():
     send_box = CTkToplevel()
     send_box.title('Send feedback')
@@ -138,4 +133,19 @@ def send_feedback():
     feedback_button = CTkButton(tabview.tab('Feedback'), text='Send', command=lambda: feedback_entry.delete('1.0', 'end'))
     feedback_button.pack(pady=5)
 def about():
-    pass
+    about_box = CTkToplevel()
+    about_box.title('Help')
+    about_box.geometry('400x300')
+    about_box.resizable(False, False)
+
+    about_box.after(100, lambda: about_box.lift())
+    about_box.attributes('-topmost', True)
+    about_box.after_idle(about_box.attributes, '-topmost', False)
+
+    tabview = CTkTabview(about_box)
+    tabview.pack(expand=True, fill='both', padx=10, pady=10)
+
+    tabview.add('Info')
+
+    info_label = CTkLabel(tabview.tab('Info'), text='Custom Notepad\nCreated by Mosuleznyi Ilya', justify='center')
+    info_label.pack(pady=2, )
