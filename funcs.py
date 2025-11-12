@@ -3,14 +3,20 @@ import libs
 import main as __main__
 from tkinter import filedialog, messagebox
 from customtkinter import *
+from customtkinter import CTkToplevel, CTkLabel, CTkEntry, CTkButton
+import os
+
+file_path = None
 
 def save_file():
-    file_name = filedialog.asksaveasfile(initialdir='/', title='Select file')
-    if file_name:
-        f = open(file_name, 'w')
-        text_save = str(ui.text.get(1.0, 'end'))
-        f.write(text_save + '\n')
-        f.close()
+    global file_path
+    fp = filedialog.asksaveasfilename(
+        defaultextension=".txt",
+        filetypes=[("Текстовые файлы", "*.txt"), ("Все файлы", "*.*")]
+    )
+    if fp:
+        file_path = fp
+        save()
 def open_file():
     file_path = filedialog.askopenfilename(
         filetypes=[('Text files', '*.txt'), ('All files', '*.*')],
@@ -29,11 +35,19 @@ def new_window():
     main_file = libs.os.path.join(libs.os.path.dirname(__file__), 'main.py')
     libs.subprocess.Popen([libs.sys.executable, main_file])
 def save():
-    pass
-def page_options():
-    pass
+    global file_path
+    if not file_path:
+        save_file()
+        return
+    text_save = ui.text.get(1.0, 'end')
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(text_save)
 def print():
-    pass
+    text_to_print = ui.text.get(1.0, 'end')
+    temp_file = os.path.join(os.environ['TEMP'], 'temp_print.txt')
+    with open(temp_file, 'w', encoding='utf-8') as f:
+        f.write(text_to_print)
+    os.startfile(temp_file, 'print')
 def undo():
     pass
 def cut():
@@ -73,7 +87,27 @@ def time_and_date():
 def wrapping():
     pass
 def font():
-    pass
+    font_window = CTkToplevel()
+    font_window.title("Сменить шрифт")
+    font_window.geometry("300x150")
+
+    font_window.attributes('-topmost', True)
+    font_window.after(100, lambda: font_window.attributes('-topmost', False))
+
+    label_name = CTkLabel(font_window, text="Имя шрифта:")
+    label_name.pack(pady=(10, 0))
+
+    entry_name = CTkEntry(font_window)
+    entry_name.pack(pady=(0, 10))
+
+    def apply_font():
+        font_name = entry_name.get()
+        if font_name:
+            ui.text.configure(font=(font_name, 4))
+            font_window.destroy()
+
+    apply_btn = CTkButton(font_window, text="Применить", command=apply_font)
+    apply_btn.pack(pady=10)
 def scale():
     scale_value_input = CTkInputDialog(title='Scale', text='Enter font size (e.g., 12):')
     scale_value = scale_value_input.get_input()
