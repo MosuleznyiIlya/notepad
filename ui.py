@@ -64,7 +64,7 @@ def create_ui():
     help_menu.add_command(label='About', command=funcs.about)
     menu.add_cascade(label='Help', menu=help_menu)
 
-    text=CTkTextbox(app, fg_color='transparent')
+    text=CTkTextbox(app, fg_color='transparent', undo=True)
     text.pack(expand=YES, fill=BOTH)
 
     app.bind('<Control-c>', lambda event: funcs.copy())
@@ -74,8 +74,11 @@ def create_ui():
     app.bind('<Control-s>', lambda event: funcs.save())
     app.bind('<Control-Shift-s>', lambda event: funcs.save_file())
     app.bind('<Delete>', lambda event: funcs.delete())
-    app.bind('<Control-f>', lambda event: funcs.find)
-    app.bind('<Control-a>', lambda event: funcs.select_all)
+    app.bind('<Control-f>', lambda event: funcs.find())
+    app.bind('<KeyPress-F3>', lambda event: funcs.find_next())
+    app.bind('<Shift-KeyPress-F3>', lambda event: funcs.find_earlier())
+    app.bind('<Control-a>', lambda event: funcs.select_all())
     app.bind('<KeyPress-F1>', lambda event: funcs.help())
+    
 
     app.mainloop()

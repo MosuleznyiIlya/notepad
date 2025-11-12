@@ -7,6 +7,9 @@ from customtkinter import CTkToplevel, CTkLabel, CTkEntry, CTkButton
 import os
 
 file_path = None
+search_text = ''
+last_index = '1.0'
+prev_index = 'end'
 
 def save_file():
     global file_path
@@ -49,7 +52,10 @@ def print():
         f.write(text_to_print)
     os.startfile(temp_file, 'print')
 def undo():
-    pass
+    try:
+        ui.text.edit_undo()
+    except Exception:
+        pass
 def cut():
     try:
         ui.text.event_generate('<<Cut>>')
@@ -70,14 +76,68 @@ def delete():
         ui.text.event_generate('<<Clear>>')
     except Exception as e:
         print(f'Delete failed: {e}')
-def find():
-    pass
 def select_all():
     ui.text.tag_add('sel', '1.0', 'end')
+def find():
+    global search_text, found_positions, current_index
+    find_window = CTkToplevel()
+    find_window.title('Найти')
+    find_window.geometry('300x120')
+
+    CTkLabel(find_window, text='Введите текст для поиска:').pack(pady=(10,0))
+    entry_find = CTkEntry(find_window)
+    entry_find.pack(pady=(0,10))
+
+    def do_find():
+        global search_text, found_positions, current_index
+        search_text = entry_find.get()
+        found_positions = []
+        current_index = -1
+
+        ui.text.tag_remove('found', '1.0', 'end')
+        ui.text.tag_remove('current', '1.0', 'end')
+
+        if search_text:
+            start = '1.0'
+            while True:
+                pos = ui.text.search(search_text, start, stopindex='end')
+                if not pos:
+                    break
+                end_pos = f'{pos}+{len(search_text)}c'
+                ui.text.tag_add('found', pos, end_pos)
+                found_positions.append((pos, end_pos))
+                start = end_pos
+            ui.text.tag_config('found', background='yellow')
+
+        find_window.destroy()
+
+    entry_find.bind('<Return>', lambda event: do_find())
+def highlight_current():
+    ui.text.tag_remove('current', '1.0', 'end')
+    if not found_positions or current_index == -1:
+        return
+    start, end = found_positions[current_index]
+    ui.text.tag_add('current', start, end)
+    ui.text.tag_config('current', background='orange')
+    ui.text.mark_set('insert', end)
+    ui.text.see(start)
 def find_next():
-    pass
+    global current_index
+    if not found_positions:
+        return
+    current_index += 1
+    if current_index >= len(found_positions):
+        current_index = 0
+    highlight_current()
 def find_earlier():
-    pass
+    """Выделить предыдущее совпадение"""
+    global current_index
+    if not found_positions:
+        return
+    current_index -= 1
+    if current_index < 0:
+        current_index = len(found_positions) - 1
+    highlight_current()
 def replace():
     pass
 def go():
@@ -141,6 +201,8 @@ def help():
         'Save - Ctrl+S\n'
         'Delete - Delete\n'
         'Find - Ctrl+F\n'
+        'Find next - F3\n'
+        'Find earlier - Shift+F3\n'
         'Select all - Ctrl+A\n'
         'Help - F1'
     )
