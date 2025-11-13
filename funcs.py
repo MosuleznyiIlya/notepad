@@ -10,6 +10,7 @@ file_path = None
 search_text = ''
 last_index = '1.0'
 prev_index = 'end'
+font_size = 12
 
 def save_file():
     global file_path
@@ -146,33 +147,47 @@ def time_and_date():
     pass
 def wrapping():
     pass
+
 def font():
+    global font_size
+
     font_window = CTkToplevel()
-    font_window.title("Сменить шрифт")
-    font_window.geometry("300x150")
+    font_window.title('Сменить шрифт')
+    font_window.geometry('300x180')
 
     font_window.attributes('-topmost', True)
     font_window.after(100, lambda: font_window.attributes('-topmost', False))
 
-    label_name = CTkLabel(font_window, text="Имя шрифта:")
+    label_name = CTkLabel(font_window, text='Имя шрифта:')
     label_name.pack(pady=(10, 0))
 
-    entry_name = CTkEntry(font_window)
+    entry_name = CTkEntry(font_window, placeholder_text='Например: Arial')
     entry_name.pack(pady=(0, 10))
 
-    def apply_font():
-        font_name = entry_name.get()
-        if font_name:
-            ui.text.configure(font=(font_name, 4))
-            font_window.destroy()
+    label_size = CTkLabel(font_window, text='Размер шрифта:')
+    label_size.pack()
 
-    apply_btn = CTkButton(font_window, text="Применить", command=apply_font)
+    entry_size = CTkEntry(font_window, placeholder_text=str(font_size))
+    entry_size.pack(pady=(0, 10))
+
+    def apply_font():
+        global font_size
+        font_name = entry_name.get() or 'Arial'
+        size_text = entry_size.get()
+        font_size = int(size_text) if size_text.isdigit() else font_size
+        ui.text.configure(font=(font_name, font_size))
+        font_window.destroy()
+
+    apply_btn = CTkButton(font_window, text='Применить', command=apply_font)
     apply_btn.pack(pady=10)
 def scale():
-    scale_value_input = CTkInputDialog(title='Scale', text='Enter font size (e.g., 12):')
+    global font_size
+    scale_value_input = CTkInputDialog(title='Размер шрифта', text='Введите размер шрифта:')
     scale_value = scale_value_input.get_input()
     if scale_value and scale_value.isdigit():
-        ui.text.configure(font=('Arial', int(scale_value)))
+        font_size = int(scale_value)
+        current_font = ui.text.cget('font').split()[0]
+        ui.text.configure(font=(current_font, font_size))
 def row_state():
     cursor_position = ui.text.index('insert')
     row, col = cursor_position.split('.')

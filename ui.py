@@ -53,7 +53,6 @@ def create_ui():
     menu.add_cascade(label='Format', menu=format_menu)
 
     view_menu = Menu(menu, tearoff=0)
-    view_menu.add_command(label='Scale', command=funcs.scale)
     view_menu.add_command(label='Row state', command=funcs.row_state)
     view_menu.add_command(label=f'Click to change themes(now - {get_appearance_mode()})', command=toggle_theme)
     menu.add_cascade(label='View', menu=view_menu)
