@@ -131,7 +131,6 @@ def find_next():
         current_index = 0
     highlight_current()
 def find_earlier():
-    """Выделить предыдущее совпадение"""
     global current_index
     if not found_positions:
         return
@@ -147,7 +146,6 @@ def time_and_date():
     pass
 def wrapping():
     pass
-
 def font():
     global font_size
 
